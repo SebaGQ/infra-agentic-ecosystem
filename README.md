@@ -1,6 +1,6 @@
 # Mini k3s GitOps en AWS
 
-Base barata para ejecutar un cluster single-node de k3s en EC2 y operarlo con GitOps mediante FluxCD. La instancia no abre puertos inbound; la administración se hace con AWS Systems Manager Session Manager.
+Base barata para ejecutar un cluster single-node de k3s en EC2 y operarlo con GitOps mediante FluxCD. La instancia no abre puertos inbound; la administración se hace con AWS Systems Manager Session Manager. El objetivo inicial es desplegar agentes autonomos usando `openclaw` como aplicacion base.
 
 ## Decisiones técnicas
 
@@ -201,13 +201,11 @@ sudo k3s kubectl get deploy -n openclaw
 sudo k3s kubectl get configmap -n openclaw
 ```
 
-El Deployment usa una imagen placeholder:
+El Deployment usa la imagen:
 
 ```text
-ghcr.io/example/openclaw:latest
+openclaw/openclaw:latest
 ```
-
-Cámbiala en `apps/openclaw/overlays/dev/kustomization.yaml` cuando exista la imagen real.
 
 ## Secretos
 

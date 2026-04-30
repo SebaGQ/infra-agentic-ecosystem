@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: openclaw
-          image: ghcr.io/example/openclaw:latest
+          image: openclaw/openclaw:latest
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
@@ -34,4 +34,3 @@ spec:
             limits:
               cpu: 250m
               memory: 256Mi
-
