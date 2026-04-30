@@ -5,6 +5,9 @@
 tfplan
 tfplan-*
 *.tfplan
+kubeconfig*.yaml
+*.kubeconfig
+ssm-kube-api-tunnel*.log
 crash.log
 crash.*.log
 override.tf

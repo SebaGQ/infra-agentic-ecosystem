@@ -140,6 +140,43 @@ aws ssm start-session --target $INSTANCE_ID
 
 No se crea key pair y no hay SSH.
 
+## Usar kubectl local sin abrir inbound
+
+La opción más barata y segura para operar el control plane desde tu máquina es un túnel de SSM Session Manager hacia el API server de k3s. No requiere Load Balancer, Elastic IP adicional, VPN, bastion ni reglas inbound.
+
+Instala el plugin local de Session Manager si no existe:
+
+```powershell
+winget install --id Amazon.SessionManagerPlugin -e --accept-package-agreements --accept-source-agreements
+```
+
+Genera un kubeconfig local que apunte a `https://127.0.0.1:6443`:
+
+```powershell
+cd C:\Users\admin\Desktop\Infra_Agents_Codex
+.\scripts\export-kubeconfig-ssm.ps1
+```
+
+El archivo `kubeconfig-ssm.yaml` contiene credenciales admin del cluster y está ignorado por Git.
+
+En una terminal, deja abierto el túnel SSM:
+
+```powershell
+cd C:\Users\admin\Desktop\Infra_Agents_Codex
+.\scripts\start-kube-api-tunnel.ps1
+```
+
+En otra terminal, usa `kubectl` local:
+
+```powershell
+$env:KUBECONFIG = "C:\Users\admin\Desktop\Infra_Agents_Codex\kubeconfig-ssm.yaml"
+kubectl get nodes -o wide
+kubectl get ns
+kubectl get kustomizations -n flux-system
+```
+
+Para cerrar el acceso local, corta la terminal donde corre `start-kube-api-tunnel.ps1`.
+
 ## Validar k3s dentro de la instancia
 
 Dentro de la sesión SSM:
