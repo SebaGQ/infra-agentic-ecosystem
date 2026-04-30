@@ -17,6 +17,8 @@ spec:
         app.kubernetes.io/name: openclaw
         app.kubernetes.io/part-of: mini-k3s-gitops
     spec:
+      imagePullSecrets:
+        - name: dockerhub-credentials
       containers:
         - name: openclaw
           image: openclaw/openclaw:latest
