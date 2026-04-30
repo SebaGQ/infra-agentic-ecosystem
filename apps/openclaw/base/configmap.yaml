@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openclaw-config
+  namespace: openclaw
+  labels:
+    app.kubernetes.io/name: openclaw
+data:
+  OPENCLAW_ENVIRONMENT: "dev"
+  OPENCLAW_LOG_LEVEL: "info"
+  OPENCLAW_CONTEXT: "replace-with-non-sensitive-runtime-context"
+
