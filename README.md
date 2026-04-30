@@ -211,6 +211,16 @@ openclaw/openclaw:latest
 
 `apps/openclaw/base/secret.example.yaml` es solo un ejemplo. No contiene valores reales y no se aplica automáticamente.
 
+Para imágenes privadas de Docker Hub, el Deployment espera un Secret llamado `dockerhub-credentials` en el namespace `openclaw`. Créalo fuera de Git:
+
+```bash
+sudo k3s kubectl create secret docker-registry dockerhub-credentials \
+  --namespace openclaw \
+  --docker-server=https://index.docker.io/v1/ \
+  --docker-username=<DOCKERHUB_USER> \
+  --docker-password=<DOCKERHUB_TOKEN>
+```
+
 Para secretos reales, usar en una fase posterior:
 
 - SOPS + Age con Flux.
