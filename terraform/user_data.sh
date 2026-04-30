@@ -24,7 +24,7 @@ fi
 systemctl enable --now snap.amazon-ssm-agent.amazon-ssm-agent.service || true
 systemctl enable --now amazon-ssm-agent.service || true
 
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable traefik" sh -
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable traefik --cluster-cidr ${k3s_cluster_cidr} --service-cidr ${k3s_service_cidr}" sh -
 
 chmod 600 /etc/rancher/k3s/k3s.yaml
 

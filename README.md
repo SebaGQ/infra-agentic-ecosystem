@@ -8,6 +8,7 @@ Base barata para ejecutar un cluster single-node de k3s en EC2 y operarlo con Gi
 - Subnet pública con public IP solo para salida a internet. El Security Group no tiene reglas inbound.
 - Egress HTTPS 443 hacia internet para SSM, descarga de k3s, GitHub y registries.
 - Egress DNS TCP/UDP 53 solo hacia el CIDR de la VPC para resolver endpoints mediante AmazonProvidedDNS.
+- k3s usa pod CIDR `10.244.0.0/16` y service CIDR `10.245.0.0/16` para no solaparse con la VPC `10.42.0.0/16`.
 - Sin SSH, sin Ingress público, sin LoadBalancer público.
 - Traefik deshabilitado; se conserva local-path provisioner y metrics-server por defecto de k3s.
 - FluxCD se bootstrappea contra GitHub y reconcilia `clusters/dev`.

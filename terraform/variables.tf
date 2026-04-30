@@ -52,6 +52,18 @@ variable "root_volume_type" {
   default     = "gp3"
 }
 
+variable "k3s_cluster_cidr" {
+  description = "k3s pod CIDR. Must not overlap with the VPC CIDR."
+  type        = string
+  default     = "10.244.0.0/16"
+}
+
+variable "k3s_service_cidr" {
+  description = "k3s service CIDR. Must not overlap with the VPC CIDR or pod CIDR."
+  type        = string
+  default     = "10.245.0.0/16"
+}
+
 variable "ubuntu_ami_id" {
   description = "Optional Ubuntu 22.04 AMI override. When null, Terraform discovers the latest Canonical Ubuntu 22.04 amd64 server AMI."
   type        = string
@@ -63,4 +75,3 @@ variable "extra_tags" {
   type        = map(string)
   default     = {}
 }
-

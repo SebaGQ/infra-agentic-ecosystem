@@ -112,6 +112,22 @@ resource "aws_security_group" "k3s" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  egress {
+    description = "k3s pod network traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = [var.k3s_cluster_cidr]
+  }
+
+  egress {
+    description = "k3s service network traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = [var.k3s_service_cidr]
+  }
+
   tags = {
     Name = "${local.name_prefix}-k3s-sg"
   }
@@ -155,7 +171,11 @@ resource "aws_instance" "k3s" {
   vpc_security_group_ids      = [aws_security_group.k3s.id]
   associate_public_ip_address = true
   iam_instance_profile        = aws_iam_instance_profile.ec2_ssm.name
-  user_data                   = file("${path.module}/user_data.sh")
+  user_data = templatefile("${path.module}/user_data.sh", {
+    k3s_cluster_cidr = var.k3s_cluster_cidr
+    k3s_service_cidr = var.k3s_service_cidr
+  })
+  user_data_replace_on_change = true
 
   root_block_device {
     volume_size           = var.root_volume_size
